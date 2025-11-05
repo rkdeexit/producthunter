@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { config } from '../config';
 import './AgentAnalysis.css';
 
 interface AgentReport {
@@ -46,7 +47,7 @@ export const AgentAnalysis = () => {
     setSteps([]);
 
     try {
-      const response = await fetch('http://localhost:3001/api/analyze-product', {
+      const response = await fetch(`${config.apiUrl}/api/analyze-product`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

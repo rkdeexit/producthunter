@@ -1,0 +1,33 @@
+services:
+  # Backend API Service
+  - type: web
+    name: producthunt-analyzer-api
+    env: node
+    region: oregon
+    buildCommand: npm install && npm run build:server
+    startCommand: npm run start:server
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PRODUCT_HUNT_API_TOKEN
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: PORT
+        value: 3001
+    healthCheckPath: /api/health
+
+  # Frontend Static Site
+  - type: web
+    name: producthunt-analyzer-frontend
+    env: static
+    region: oregon
+    buildCommand: npm install && npm run build
+    staticPublishPath: ./dist
+    envVars:
+      - key: VITE_API_URL
+        sync: false
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
